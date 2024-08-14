@@ -87,7 +87,7 @@ def checkFirstDiagonal(board,player):
     else:
         return False
     
-def checkSecondtDiagonal(board,player):
+def checkSecondDiagonal(board,player):
     count = 0
     for row in range(len(board)):
         for col in range(len(row)):
@@ -103,8 +103,12 @@ def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-    raise NotImplementedError
-
+    if checkRow(board, X) or checkCol(board, X) or checkFirstDiagonal(board, X) or checkSecondDiagonal(board, X):
+        return X
+    elif checkRow(board, O) or checkCol(board, O) or checkFirstDiagonal(board, O) or checkSecondDiagonal(board, O):
+        return O
+    else:
+        return None
 
 def terminal(board):
     """
