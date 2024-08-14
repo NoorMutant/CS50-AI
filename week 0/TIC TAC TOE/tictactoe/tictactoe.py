@@ -27,10 +27,10 @@ def player(board):
     counto = 0
 
     for row in range(len(board)):
-        for col in range(len(row)):
+        for col in range(len(board[row])):
             if board[row][col] == X:
                 countx += 1
-            if board[row][col]  == 0:
+            if board[row][col]  == O:
                 counto += 1
     if countx > counto :
         return O
@@ -45,7 +45,7 @@ def actions(board):
     """
     allPossibleActions = set()
     for row in range(len(board)):
-        for col in range(len(row)):
+        for col in range(len(board[row])):
             if board[row][col] == EMPTY:
                 allPossibleActions.add((row,col))
     
@@ -64,40 +64,42 @@ def result(board, action):
     return board_copy
 
 
-def checkRow(board,player):
+
+
+def checkRow(board, current_player):
     for row in range(len(board)):
-        if board[row][0] == player(board) and board[row][1] == player(board) and board[row][2] == player(board):
+        if board[row][0] == current_player and board[row][1] == current_player and board[row][2] == current_player:
             return True
     return False
 
-def checkCol(board,player):
+
+def checkCol(board, current_player):
     for col in range(len(board)):
-        if board[0][col] == player(board) and board[1][col] == player(board) and board[2][col] == player(board):
+        if board[0][col] == current_player and board[1][col] == current_player and board[2][col] == current_player:
             return True
     return False
 
-def checkFirstDiagonal(board,player):
+
+def checkFirstDiagonal(board, current_player):
     count = 0
     for row in range(len(board)):
-        for col in range(len(row)):
-            if row == col and board[row][col] == player(board):
-                count +=1
-    if count == 3:
-        return True
-    else:
-        return False
-    
-def checkSecondDiagonal(board,player):
-    count = 0
-    for row in range(len(board)):
-        for col in range(len(row)):
-            if col == (len(board) - row -1) and board[row][col] == player(board):
-                count +=1
+        if board[row][row] == current_player:
+            count += 1
     if count == 3:
         return True
     else:
         return False
 
+
+def checkSecondDiagonal(board, current_player):
+    count = 0
+    for row in range(len(board)):
+        if board[row][len(board) - row - 1] == current_player:
+            count += 1
+    if count == 3:
+        return True
+    else:
+        return False
 
 def winner(board):
     """
@@ -146,7 +148,7 @@ def max_value(board):
         return utility(board)
     for action in actions(board):
         v = max(v, min_value(result(board,action)))
-        return v
+    return v
     
 
 def min_value(board):
@@ -155,7 +157,7 @@ def min_value(board):
         return utility(board)
     for action in actions(board):
         v = min(v, max_value(result(board,action)))
-        return v
+    return v
 
 def minimax(board):
     """
