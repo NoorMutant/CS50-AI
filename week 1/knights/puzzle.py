@@ -71,6 +71,49 @@ knowledge3 = And(
     Implication(CKnave, Not(AKnight)),
 )
 
+# Chat gpt practice examples
+
+
+# Puzzle 4
+# A says: "B is a knave."
+# B says nothing.
+
+knowledge4 = And(
+    knowledgeBase,
+    Implication (AKnight, BKnave),
+    Implication (AKnave, Not(BKnave))
+)
+
+# Puzzle 5
+# A says: "B is a knight."
+# B says: "C is a knave."
+# C says: "A is a knight."
+
+knowledge5 = And(
+    knowledgeBase,
+    Implication (AKnight, BKnight),
+    Implication (AKnave, Not(BKnight)),
+    Implication (BKnight, CKnave),
+    Implication (BKnave, Not(CKnave)),
+    Implication (CKnight, AKnight),
+    Implication (CKnave, Not(AKnight))
+)
+
+# Puzzle 6
+# A says: "B is a knight if and only if C is a knave."
+# B says: "A is either a knight or C is a knight, but not both."
+# C says: "B is a knight."
+
+knowledge6 = And(
+    knowledgeBase,
+    Implication (AKnight, Implication (BKnight,CKnave)),
+    Implication (AKnave, Not(Implication (BKnight,CKnave))),
+    Implication (BKnight, Or(AKnight,CKnight)),
+    Implication (BKnave, Not(Or(AKnight,CKnight))),
+    Implication (CKnight,BKnight),
+    Implication (CKnave, Not(BKnight))
+)
+
 
 def main():
     symbols = [AKnight, AKnave, BKnight, BKnave, CKnight, CKnave]
@@ -79,6 +122,9 @@ def main():
         ("Puzzle 1", knowledge1),
         ("Puzzle 2", knowledge2),
         ("Puzzle 3", knowledge3),
+        ("Puzzle 4", knowledge4),
+        ("Puzzle 5", knowledge5),
+        ("Puzzle 6", knowledge6),
     ]
     for puzzle, knowledge in puzzles:
         print(puzzle)
